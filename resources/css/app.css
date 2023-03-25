@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.md b, .md strong {
+	@apply dark:text-white;
+}
+
+.md h1 {
+	@apply mt-5 pt-5 mb-1 text-3xl font-black dark:text-teal-200 text-teal-700;
+}
+.md h2 {
+	@apply mt-5 pt-3 mb-1 text-xl font-black dark:text-teal-200 text-teal-700;
+}
+.md h3 {
+	@apply mt-5 pt-1 mb-1 text-lg font-black dark:text-teal-200 text-teal-700
+}
+
+.md ol {
+	@apply list-decimal pl-4 my-4;
+}
+
+.md ul {
+	@apply list-disc pl-4 my-4;
+}
+
+.md a {
+	@apply text-blue-500 hover:underline dark:hover:text-blue-300 hover:text-blue-700;
+}
+
+.md blockquote {
+	@apply italic text-gray-500 mt-2 pl-5 border-l-4 border-gray-300;
+}
