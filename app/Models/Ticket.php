@@ -100,5 +100,27 @@ class Ticket extends Model
 	{
 		return Article::mark($this->short_description);
 	}
+	
+
+	public function showColumn($column)
+	{
+		switch($column) {
+			case 'id':
+				return view('components.views-id', ['ticket' => $this]);
+			case 'assignment_group':
+				return view('components.views-assignmentgroup', ['ticket' => $this]);
+			case 'assigned_to':
+				return view('components.views-assignedto', ['ticket' => $this]);
+			case 'updated_at':
+				return view('components.views-updatedat', ['ticket' => $this]);
+			case 'created_at':
+				return view('components.views-createdat', ['ticket' => $this]);
+			case 'status':
+				return view('components.views-status', ['ticket' => $this]);
+			case 'priority':
+				return view('components.views-prio', ['ticket' => $this]);
+		}
+		return $this->$column;
+	}
 
 }

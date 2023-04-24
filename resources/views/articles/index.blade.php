@@ -7,7 +7,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
 			<x-table-head :headers="['ID', 'Title', 'Author', 'Created', 'Updated']" />
 				<tbody class="text-gray-700 dark:text-gray-300 shadow">
 					@foreach ($articles as $article)

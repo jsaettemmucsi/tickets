@@ -10,14 +10,14 @@
     </x-slot>
 
 	<div class="py-12">
-		<div class="max-w-7xl mx-auto p-4 dark:text-white">
+		<div class="max-w-3xl mx-auto p-4 dark:text-white">
 			<div id="errormsg" class="inline rounded text-red-600 p-3"></div>
 			<div class="">
 				<a href="#" id="viewbutton" class="px-3 py-1 inline-block border-b-4 border-blue-700 hover:border-blue-500">View</a>
 				<a href="#" id="editbutton" class="px-3 py-1 inline-block border-b-4 border-blue-900 hover:border-blue-500">Edit</a>
 			</div>
 		</div>
-		<div class="rounded-xl max-w-7xl mx-auto bg-white dark:bg-gray-800 dark:text-gray-400 shadow p-4">
+		<div class="rounded-xl max-w-3xl mx-auto bg-white dark:bg-gray-800 dark:text-gray-400 shadow p-4">
 
 			<!-- Editor -->
 			<div class="p-4 shadow block" id="page-edit">
@@ -27,7 +27,7 @@
 					{{  $article->headline() }}
 				</div>
 				
-				<x-text-area rows="18" id="artbody" name="artbody" class="bg-white dark:bg-black w-full">{{ $article->body }}</x-text-area>
+				<x-text-area rows="25" id="artbody" name="artbody" class="bg-white dark:bg-black w-full">{{ $article->body }}</x-text-area>
 				<span class="text-gray-500 italic">
 					Changes are saved automatically. Wrap snake words in &lbrace;&lbrace; and &rbrace;&rbrace; to trigger link to another article. Example: &lbrace;&lbrace; Sagikos_Tickets &rbrace;&rbrace; will lead to <a class="text-blue-500 dark:hover-text-blue-300 underline" href="/kb/Sagikos_Tickets">Sagikos Tickets</a>
 				</span>
@@ -42,6 +42,7 @@
 				</div>
 				
 				<div id="artbody-view" name="artbody-view" class="dark:text-gray-400 pl-4 pr-2 py-2 w-full md">{!! $article->md() !!}</div>
+
 			</div>
         </div>
     </div>
@@ -132,5 +133,6 @@
 
 </script>
 
+<x-mermaid-include />
 
 </x-app-layout>

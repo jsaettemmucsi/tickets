@@ -1,0 +1,1 @@
+<x-views-link :href="$ticket->assigned?->link()">{{ $ticket->assigned?->name }}</x-views-link>

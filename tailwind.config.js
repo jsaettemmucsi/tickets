@@ -11,10 +11,15 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
             },
         },
     },
+	variants: {
+		extend: {
+		  backgroundColor: ['even'],
+		}
+	  },
 
     plugins: [require('@tailwindcss/forms')],
 };

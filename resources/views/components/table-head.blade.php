@@ -1,11 +1,9 @@
-<table class="dark:text-white table w-full rounded-xl overflow-clip shadow border-4 border-gray-600">
+<table class="table w-full text-s relative">
 
-	<thead class="">	
+	<thead class="bg-white text-black dark:bg-black dark:text-white shadow">	
 		<tr>
-			@foreach ($headers as $header)
-				<th class="px-2 py-4 bg-gray-200 dark:bg-black">
-					{{ $header }}
-				</th>
+			@foreach ($headers as $column)
+				<th class="bg-white dark:bg-gray-800 px-2 py-2 sticky top-0 text-left">{{ App\Models\View::displayColumn($column) }}</th>
 			@endforeach
 		</tr>
 	</thead>

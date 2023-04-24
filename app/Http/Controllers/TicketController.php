@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BS;
 use App\Models\CI;
+use App\Models\View;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Ticket;
@@ -14,8 +15,14 @@ class TicketController extends Controller
 {
 	public function index()
 	{
-		$tickets = Ticket::where('active', true)->get();
-		return view('tickets/index', compact('tickets'));
+
+		// Check if we have a default view
+		$this->createViews();
+
+		$views = View::all();
+
+		// Go to the first available view.
+		return redirect($views[0]->link());
 	}
 
 
@@ -38,15 +45,33 @@ class TicketController extends Controller
 
 	public function show(Ticket $ticket)
 	{
+		$this->createViews();
 		$bss = BS::all();
 		$cis = CI::all();
 		$teams = Team::with('users')->get();
 		$users = User::all();
-		return view('tickets/show', compact('ticket', 'bss', 'cis', 'teams', 'users'));
+		$views = View::all();
+		return view('tickets/show', compact('ticket', 'bss', 'cis', 'teams', 'users', 'views'));
 	}
 
 
 	public function update(Ticket $ticket, Request $request)
+	{
+		$this->upd($ticket, $request);
+		if(auth()->user()->view > 0) {
+			return redirect('/views/' . auth()->user()->view);
+		}
+		return redirect('/tickets');
+	}
+
+
+	public function save(Ticket $ticket, Request $request)
+	{
+		$this->upd($ticket, $request);
+		return redirect($ticket->link());
+	}
+
+	public function upd(Ticket $ticket, Request $request)
 	{
 		$ticket->channel = $request->channel;
 		$ticket->active = $request->active;
@@ -119,7 +144,6 @@ class TicketController extends Controller
 			}
 		}
 
-		return redirect($ticket->link());
 	}
 
 	public function log($ticket_id, $data)
@@ -138,4 +162,81 @@ class TicketController extends Controller
 		return json_last_error() === JSON_ERROR_NONE;
 	 }
 
+
+	 public function view(View $view)
+	 {
+		$this->createViews();
+		$views = View::all();
+
+		// make the viewed view the set view
+		$user = auth()->user();
+		$user->view = $view->id;
+		$user->save();
+		return view('views/view', compact('view', 'views'));
+	 }
+
+
+	 public function createViews()
+	 {
+		if (View::count() == 0) {
+
+			// If not, create one.
+			$view = new View();
+			$view->public = true;
+			$view->created_by = auth()->user()->id;
+			$view->updated_by = auth()->user()->id;
+			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->sorted_by = "identifier()";
+			$view->grouped_by = null;
+			$view->name = "All Incidents";
+			$view->filter = "active = 1";
+			$view->save();
+
+			$view = new View();
+			$view->public = true;
+			$view->created_by = auth()->user()->id;
+			$view->updated_by = auth()->user()->id;
+			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->sorted_by = "updated_at";
+			$view->grouped_by = null;
+			$view->name = "Open incidents";
+			$view->filter = "status in ('New', 'In progress', 'On hold') AND active = 1";
+			$view->save();
+
+			$view = new View();
+			$view->public = true;
+			$view->created_by = auth()->user()->id;
+			$view->updated_by = auth()->user()->id;
+			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->sorted_by = "updated_at";
+			$view->grouped_by = null;
+			$view->name = "In Progress";
+			$view->filter = "status = 'In progress' AND active = 1";
+			$view->save();
+
+			$view = new View();
+			$view->public = true;
+			$view->created_by = auth()->user()->id;
+			$view->updated_by = auth()->user()->id;
+			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->sorted_by = "updated_at";
+			$view->grouped_by = null;
+			$view->name = "New";
+			$view->filter = "status = 'New' AND active = 1";
+			$view->save();
+
+			$view = new View();
+			$view->public = true;
+			$view->created_by = auth()->user()->id;
+			$view->updated_by = auth()->user()->id;
+			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->sorted_by = "updated_at";
+			$view->grouped_by = null;
+			$view->name = "On hold";
+			$view->filter = "status = 'On hold' AND active = 1";
+			$view->save();
+
+		}
+
+	 }
 }

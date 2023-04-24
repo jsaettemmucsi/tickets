@@ -8,7 +8,7 @@
 
 	
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden">
                 <div class="p-0 text-gray-900 dark:text-gray-100">
 					<div class="block mb-4">

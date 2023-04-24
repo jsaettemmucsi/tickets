@@ -41,13 +41,14 @@ class Article extends Model
 	{
 		$text = Markdown::convert($text)->getContent();
 		$text = preg_replace('/({{) (\w+) (}})/', '<a href="/kb/$2">$2</a>', $text);
-
+		$text = str_replace('<code class="language-mermaid">', '<code class="mermaid">', $text);
 		return $text;
 	}
 
 	public function md()
 	{
-		return Article::mark($this->body);
+		$md = Article::mark($this->body);
+		return $md;
 	}
 
 

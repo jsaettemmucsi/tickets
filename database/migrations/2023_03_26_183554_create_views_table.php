@@ -13,16 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('views', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
             $table->timestamps();
-			$table->unsignedBigInteger('default_team')->nullable();
-			$table->unsignedBigInteger('view')->nullable();
+			$table->integer('public')->default(0);
+			$table->unsignedBigInteger('created_by')->nullable();
+			$table->unsignedBigInteger('updated_by')->nullable();
+			$table->string('columns');
+			$table->string('sorted_by')->nullable(); // default is id;
+			$table->string('grouped_by')->nullable();
+			$table->string('name');
+			$table->string('filter')->nullable();
+
         });
     }
 
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('views');
     }
 };
