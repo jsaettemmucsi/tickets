@@ -32,11 +32,22 @@ class View extends Model
 
 	public function tickets()
 	{
+		// If we don't have a default sort order, set it to id.
+		if ($this->sorted_by == null) {
+			$this->sorted_by = 'id';
+		}
+
 		if ($this->filter) {
-			return Ticket::select($this->columns())->whereRaw($this->filter)->get();
+			if ($this->grouped_by) {
+				return Ticket::select($this->columns())->whereRaw($this->filter)->orderBy($this->sorted_by, 'desc')->groupBy('grouped_by')->get();
+			}
+			else {
+				return Ticket::select($this->columns())->whereRaw($this->filter)->orderBy($this->sorted_by, 'desc')->get();
+
+			}
 		}
 		else {
-			return Ticket::select($this->columns())->get();
+			return Ticket::select($this->columns())->orderBy($this->sorted_by, 'desc')->get();
 		}
 	}
 

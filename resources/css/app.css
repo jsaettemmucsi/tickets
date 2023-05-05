@@ -35,6 +35,32 @@
 	@apply mt-4 bg-slate-100 dark:bg-slate-800 p-4 rounded-xl;
 }
 
-.sagikos {
+/* .sagikos {
 	color: rgb(255,101,122);
+} */
+
+.counter {
+	counter-reset: ticketcounter;
+}
+
+.counter thead tr::before {
+	content: "";
+}
+
+.counter tbody tr {
+	position: relative;
+}
+.counter tbody tr::before {
+	counter-increment: ticketcounter;
+	content: counter(ticketcounter);
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	position: absolute;
+	top: 50%;
+	transform: translate(-2rem, -50%);
+	@apply text-gray-600 text-xs;
+	height: 100%;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
 }

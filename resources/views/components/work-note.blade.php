@@ -1,15 +1,29 @@
-<div class="bg-white hover:bg-gray-50 dark:bg-gray-800 rounded w-full block dark:border-2 shadow dark:border-gray-800 dark:text-gray-300 mb-2 pt-2 pb-3 pr-2 pl-5 relative dark:hover:bg-gray-700">
-<span class="absolute block
-@if ($worknote->internal) bg-gradient-to-b from-amber-400 to-amber-800 @else dark:bg-gradient-to-b from-gray-500 to-gray-900 bg-gray-500 @endif 
-" style="width: 6px; bottom:2px; top:2px; left:2px; z-index:3; border-radius: 0;"></span>
+<div class="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded w-full block hover:shadow dark:text-gray-300 mb-2 pt-2 pb-3 pr-2 pl-5 relative dark:hover:bg-gray-700
+@if ($worknote->internal) 
+		border-amber-400 bg-amber-50
+@elseif($worknote->type == 'Additional comments')
+@else
+@endif
+">
+<span class="absolute block w-1.5 top-0 bottom-0 left-0 rounded-l bg-gradient-to-b
+@if ($worknote->internal) 
+	from-amber-200 to-amber-400 dark:from-amber-600 dark:to-amber-900
+@elseif($worknote->type == 'Additional comments') 
+	from-gray-400 to-gray-800 dark:from-gray-500 dark:to-gray-900
+@else 
+	from-gray-200 to-gray-300 dark:from-gray-800 dark:to-black
+@endif 
+"></span>
 
 	<div class="my-2 grid grid-cols-2 text-xs">
+
 		<!-- user -->
 		<div class="font-bold">
 			<a class="text-slate-500 hover:underline text-sm" href="{{ $worknote->user->link() }}">
 				{{ $worknote->user->name }}
 			</a>
 		</div>
+
 		<!-- date -->
 		<div class="text-right dark:text-slate-700 whitespace-nowrap mr-4">
 			<span class="mr-2 dark:text-slate-300">

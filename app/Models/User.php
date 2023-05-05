@@ -64,4 +64,20 @@ class User extends Authenticatable
 	{
 		return $this->belongsTo(View::class);
 	}
+
+
+	public function notifications()
+	{
+		return $this->hasMany(Notification::class);
+	}
+
+
+	public function notify($title, $body) 
+	{
+		$notification = new Notification();
+		$notification->title = $title;
+		$notification->body = $body;
+		$notification->user_id = $this->id;
+		$notification->save();
+	}
 }

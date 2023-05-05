@@ -43,10 +43,12 @@ Route::post('/teams/{team}/update', [TeamController::class, 'update'])->middlewa
 Route::get('/teams/{team}', [TeamController::class, 'show'])->middleware(['auth', 'verified'])->name('teams.show');
 
 Route::get('/tickets', [TicketController::class, 'index'])->middleware(['auth', 'verified'])->name('tickets.index');
-Route::post('/tickets', [TicketController::class, 'create'])->middleware(['auth', 'verified'])->name('tickets.create');
+Route::get('/tickets/create', [TicketController::class, 'create'])->middleware(['auth', 'verified'])->name('tickets.create');
+// Route::post('/tickets', [TicketController::class, 'create'])->middleware(['auth', 'verified'])->name('tickets.create');
 Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->middleware(['auth', 'verified'])->name('tickets.show');
 Route::post('/tickets/{ticket}/update', [TicketController::class, 'update'])->middleware(['auth', 'verified'])->name('tickets.update');
 Route::post('/tickets/{ticket}/save', [TicketController::class, 'save'])->middleware(['auth', 'verified'])->name('tickets.save');
+Route::post('/tickets/{ticket}/savepost', [TicketController::class, 'savepost'])->middleware(['auth', 'verified'])->name('tickets.savepost');
 
 Route::get('/views/{view}', [TicketController::class, 'view'])->middleware(['auth', 'verified'])->name('view');
 

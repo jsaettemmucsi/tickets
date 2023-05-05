@@ -14,6 +14,10 @@ class Worknote extends Model
 		'data' => 'array',
 	];
 
+	protected $touches = ['ticket'];
+
+
+	
 	protected static function boot()
 	{
 		parent::boot();
@@ -22,6 +26,9 @@ class Worknote extends Model
 			$builder->orderBy('created_at', 'desc');
 		});
 	}
+
+
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);
@@ -33,5 +40,10 @@ class Worknote extends Model
 		if ($this->body != "") {
 			return Article::mark($this->body);
 		}
+	}
+
+	public function ticket()
+	{
+		return $this->belongsTo(Ticket::class);
 	}
 }

@@ -12,6 +12,7 @@ class Ticket extends Model
     use HasFactory;
 
 	const PREFIX = 'INC';
+	const LENGTH = 7;
 
 	protected static function boot()
 	{
@@ -29,7 +30,7 @@ class Ticket extends Model
 
 	public function identifier()
 	{
-		return Ticket::PREFIX . Str::padLeft($this->id, 5, '0');
+		return Ticket::PREFIX . Str::padLeft($this->id, static::LENGTH, '0');
 	}
 
 

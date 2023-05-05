@@ -13,6 +13,9 @@ module.exports = {
             fontFamily: {
                 sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
             },
+			colors: {
+				'sagikos': 'rgb(255,101,122)',
+			},
         },
     },
 	variants: {

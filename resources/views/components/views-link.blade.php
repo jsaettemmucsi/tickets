@@ -1,3 +1,3 @@
-<a class="sagikos hover:underline whitespace-nowrap" href="{{ $href }}">
+<x-link href="{{ $href }}">
 	{{  $slot }}
-</a>
+</x-link>

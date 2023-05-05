@@ -21,7 +21,12 @@ class TicketController extends Controller
 
 		$views = View::all();
 
-		// Go to the first available view.
+		// if user has a selected view, view that.
+		if (auth()->user()->view > 0) {
+			return redirect('/views/' . auth()->user()->view);
+		}
+
+		// Otherwise, go to the first available view.
 		return redirect($views[0]->link());
 	}
 
@@ -45,6 +50,9 @@ class TicketController extends Controller
 
 	public function show(Ticket $ticket)
 	{
+		if (!$ticket->active) {
+			// return redirect('/tickets');
+		}
 		$this->createViews();
 		$bss = BS::all();
 		$cis = CI::all();
@@ -69,6 +77,13 @@ class TicketController extends Controller
 	{
 		$this->upd($ticket, $request);
 		return redirect($ticket->link());
+	}
+
+	public function savepost(Ticket $ticket, Request $request)
+	{
+		$this->upd($ticket, $request);
+		// return redirect($ticket->link());
+		return redirect($ticket->link() . '/#sep-bar');
 	}
 
 	public function upd(Ticket $ticket, Request $request)
@@ -122,6 +137,7 @@ class TicketController extends Controller
 
 		if (isset($request['work-notes'])) {
 			if ($request['work-notes'] != "") {
+				
 				$ac = new Worknote();
 				$ac->internal = true;
 				$ac->ticket_id = $ticket->id;
@@ -129,6 +145,15 @@ class TicketController extends Controller
 				$ac->body = $request['work-notes'];
 				$ac->type = "Work notes (only visible to IT)";
 				$ac->save();
+
+				if ($request['tagged-users'] != null) {
+					$taggedUsers = json_decode($request['tagged-users']);
+					foreach($taggedUsers as $taggedUser) {
+						$taggedUserID = substr($taggedUser, 5);
+						User::findOrFail($taggedUserID)->notify(auth()->user()->name . " mentioned you in " . $ticket->identifier(), "Click here for details");
+					}
+				}
+
 			}
 		}
 
@@ -186,7 +211,7 @@ class TicketController extends Controller
 			$view->created_by = auth()->user()->id;
 			$view->updated_by = auth()->user()->id;
 			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
-			$view->sorted_by = "identifier()";
+			$view->sorted_by = "updated_at";
 			$view->grouped_by = null;
 			$view->name = "All Incidents";
 			$view->filter = "active = 1";

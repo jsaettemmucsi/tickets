@@ -1,3 +1,1 @@
-<x-views-link :href="$ticket->link()">
-	{{ $ticket->identifier() }}
-</x-views-link>
+<x-link href="{{ $ticket->link() }}">{{ $ticket->identifier() }}</x-link>
