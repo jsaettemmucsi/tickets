@@ -24,6 +24,8 @@ return new class extends Migration
 			$table->unsignedBigInteger('default_team')->nullable();
 			$table->unsignedBigInteger('view')->nullable();
 			$table->integer('show_ticket_count')->default(1)->nullable();
+            $table->unsignedBigInteger('site_id')->nullable();
+            $table->text('picture_url')->nullable();
         });
     }
 

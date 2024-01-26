@@ -1,27 +1,23 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Teams') }}
+            {{ __('Sites') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
 			<div class="block mb-4">
-				<form action="/teams" method="POST">
+				<form action="/sites" method="POST">
 					@csrf
 					<x-primary-button>add</x-primary-button>
 				</form>
 			</div>
 
-			<div class="block mb-4">
-				<input type="checkbox" name="hit" id="hit" class="mr-2">
-				<label for="hit">Hide inactive teams.</label>
-			</div>
-
 			<div class="block w-full">
-				@foreach ($teams as $team)
-					<x-card href="{{ $team->link() }}" logo="{{ $team->logourl }}" header="{{ $team->name }}" footer="{{ $team->email }}">
+				@foreach ($sites as $site)
+					<x-card href="{{ $site->link() }}" header="{{ $site->name }}">
+						{{ $site->description ?? '' }}
 					</x-card>
 				@endforeach
 			</div>

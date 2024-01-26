@@ -69,8 +69,52 @@ class Worknote extends Model
 				return 'false';
 			case 'status_id':
 				return Status::find($value)?->name;
+			case 'onhold_reason':
+				return HoldReason::find($value)?->name;
+			case 'requester':
+				return User::find($value)?->name;
 
 		}
 		return $value;
+	}
+
+
+	static function change($key) {
+		if ($key == null) { return; }
+		switch ($key) {
+			case 'category':
+				return 'Category';
+			case 'subcategory':
+				return 'Subcategory';
+			case 'businessservice_id':
+				return 'Business Service';
+			case 'configurationitem_id':
+				return 'Configuration item';
+			case 'assignment_group':
+				return 'Assignment group';
+			case 'assigned_to':
+				return 'Assigned to';
+			case 'short_description':
+				return 'Short description';
+			case 'description':
+				return 'Description';
+			case 'active':
+				return '';
+			case 'requester':
+				return 'Requester';
+			case 'owner_group':
+				return 'Owner group';
+			case 'status_id':
+				return 'Status';
+			case 'impact':
+				return 'Impact';
+			case 'urgency':
+				return 'Urgency';
+			case 'priority':
+				return 'Priority';
+			case 'onhold_reason': 
+				return 'On hold reason';
+		}
+		return $key;
 	}
 }

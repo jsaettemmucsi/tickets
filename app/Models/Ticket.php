@@ -71,7 +71,7 @@ class Ticket extends Model
 
 	public function prioritybox()
 	{
-		$bg = "";
+		// $bg = "";
 		// if ($this->priority == "Critical (P1)") { 
 		// 	$bg = "bg-red-600 text-white";
 		// }
@@ -79,7 +79,7 @@ class Ticket extends Model
 		// 	$bg = "bg-amber-600 text-white";
 		// }
 		// else if ($this->priority == "Medium (P3)") { 
-		// 	// $bg = "bg-green-600 text-white";
+		// 	$bg = "bg-green-600 text-white";
 		// }
 
 		return '<span class="block ' . $bg . ' px-4 py-3">' . $this->priority . '</span>';

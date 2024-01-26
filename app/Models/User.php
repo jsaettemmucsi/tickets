@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -42,6 +43,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+	protected static function boot()
+	{
+		parent::boot();
+	
+		static::addGlobalScope('order', function (Builder $builder) {
+			$builder->orderBy('name', 'asc');
+		});
+	}
+
+    
 
 	public function link()
 	{
@@ -79,5 +90,10 @@ class User extends Authenticatable
 		$notification->body = $body;
 		$notification->user_id = $this->id;
 		$notification->save();
+	}
+
+
+	public function site() {
+		return $this->belongsTo(Site::class);
 	}
 }

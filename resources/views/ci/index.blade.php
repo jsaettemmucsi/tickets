@@ -22,9 +22,10 @@
 							<x-card 
 								href="{{ $ci->link() }}" 
 								header="{{ $ci->name }}" 
-								footer="{{ $ci->bs->name }}"
+								footer="{{ $ci->bs?->name }}"
 								tag="{{ $ci->vendor }}"
 							>
+								{{ $ci->url }}
 							</x-card>
 	
 						@endforeach

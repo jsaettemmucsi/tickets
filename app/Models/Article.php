@@ -39,11 +39,14 @@ class Article extends Model
 
 	public static function mark($text)
 	{
-		$text = Markdown::convert($text)->getContent();
-		$text = preg_replace('/({{) (\w+) (}})/', '<a href="/kb/$2">$2</a>', $text);
-		$text = preg_replace('/(INC)(\w+)/', '<a href="/tickets/$2">INC$2</a>', $text);
-		$text = str_replace('<code class="language-mermaid">', '<code class="mermaid">', $text);
-		return $text;
+		if ($text) {
+			$text = Markdown::convert($text)->getContent();
+			$text = preg_replace('/({{) (\w+) (}})/', '<a href="/kb/$2">$2</a>', $text);
+			$text = preg_replace('/(INC)(\w+)/', '<a href="/tickets/$2">INC$2</a>', $text);
+			$text = str_replace('<code class="language-mermaid">', '<code class="mermaid">', $text);
+			return $text;
+		}
+		return;
 	}
 
 	public function md()

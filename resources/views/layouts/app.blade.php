@@ -34,10 +34,10 @@
             <main class="mt-12">
                 {{ $slot }}
             </main>
-			<footer class="dark:bg-gray-800 dark:text-gray-400 text-center mt-4 py-2">
+			<footer class="dark:text-gray-400 text-center mt-12 text-xs py-2">
 				&copy;
 				<x-link href="https://sagikos.com" class="text-center">
-					<img src="https://sagikos.com/sagikos-logo.svg" alt="" class="h-12 inline">
+					<img src="https://sagikos.com/sagikos-logo.svg" alt="" class="h-8 inline opacity-20 hover:opacity-100">
 				</x-link> 2023
 	
 			</footer>

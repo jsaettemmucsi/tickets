@@ -31,7 +31,7 @@
 					@foreach ($view->tickets() as $ticket)
 						<tr class="hover:bg-gray-50 bg-white dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800">
 							@foreach ($view->columns() as $column)
-								<td class="px-2 py-1 border-b border-gray-300 dark:border-gray-700">{!! $ticket->showColumn($column) !!}</td>
+								<td class="px-2 py-1">{!! $ticket->showColumn($column) !!}</td>
 							@endforeach
 						</tr>
 					@endforeach

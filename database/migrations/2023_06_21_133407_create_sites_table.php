@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('c_i_s', function (Blueprint $table) {
+        Schema::create('sites', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-			$table->string('name');
-			$table->unsignedBigInteger('bs_id');
-			$table->string('vendor')->nullable();
-            $table->string('url')->nullable();
-            $table->unsignedBigInteger('support_team_id')->nullable();
+            $table->string('name')->unique();
+            $table->integer('active')->default(1);
+            $table->unsignedBigInteger('team_id')->nullable();
+            $table->string('description')->nullable();
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('c_i_s');
+        Schema::dropIfExists('sites');
     }
 };

@@ -7,6 +7,7 @@ use App\Models\CI;
 use App\Models\View;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Site;
 use App\Models\Status;
 use App\Models\Ticket;
 use App\Models\Worknote;
@@ -38,13 +39,18 @@ class TicketController extends Controller
 	{
 		$ticket = new Ticket();
 		$ticket->opened = now();
-		$ticket->requester = auth()->user()->id;
+
+		// this makes no sense, requester doesn't/shouldn't be same as handler.
+		// $ticket->requester = auth()->user()->id;
+		$ticket->requester = 0;
+
 		$ticket->channel = "Direct input";
-		$ticket->status = 1;
+		$ticket->status_id = 1;
 		$ticket->impact = 4;
 		$ticket->urgency = 4;
 		$ticket->priority = "Low (P4)";
 		$ticket->active = false;
+
 		$ticket->save();
 		$ticket->fresh();
 		return redirect($ticket->link());
@@ -64,17 +70,22 @@ class TicketController extends Controller
 		$views = View::all();
 		$statuses = Status::all();
 		$holdReasons = HoldReason::all();
-		return view('tickets/show', compact('ticket', 'bss', 'cis', 'teams', 'users', 'views', 'statuses', 'holdReasons'));
+		$sites = Site::all();
+		return view('tickets/show', compact('ticket', 'bss', 'cis', 'teams', 'users', 'views', 'statuses', 'holdReasons', 'sites'));
 	}
 
 
 	public function update(Ticket $ticket, Request $request)
 	{
-		$this->upd($ticket, $request);
-		if(auth()->user()->view > 0) {
-			return redirect('/views/' . auth()->user()->view);
+		if ($this->upd($ticket, $request)) {
+			if(auth()->user()->view > 0) {
+				return redirect('/views/' . auth()->user()->view);
+			}
+			return redirect('/tickets');
 		}
-		return redirect('/tickets');
+		else {
+			return redirect($ticket->link());
+		}
 	}
 
 
@@ -84,19 +95,22 @@ class TicketController extends Controller
 		return redirect($ticket->link());
 	}
 
-	public function savepost(Ticket $ticket, Request $request)
-	{
+
+	public function savepost(Ticket $ticket, Request $request) {
 		$this->upd($ticket, $request);
 		// return redirect($ticket->link());
 		return redirect($ticket->link() . '/#sep-bar');
 	}
 
-	public function upd(Ticket $ticket, Request $request)
-	{
+
+	public function upd(Ticket $ticket, Request $request) {
 		$ticket->channel = $request->channel;
 		$ticket->active = $request->active;
 		$ticket->status_id = $request->status_id;
 		$ticket->requester = $request->requester;
+		if ($ticket->requester == null) { 
+			return;
+		}
 		$ticket->impact = $request->impact;
 		$ticket->category = $request->category;
 		$ticket->subcategory = $request->subcategory;
@@ -104,11 +118,22 @@ class TicketController extends Controller
 		$ticket->priority = $request->priority;
 		$ticket->businessservice_id = $request->businessservice_id;
 		$ticket->configurationitem_id = $request->configurationitem_id;
-		$ticket->owner_group = $request->owner_group;
+
+		// if we don't already have an owner group
+		if (!$ticket->owner_group) {
+			$ticket->owner_group = $ticket->requested_by->site->team->id;
+		}
 		$ticket->assignment_group = $request->assignment_group;
 		$ticket->assigned_to = $request->assigned_to;
 		$ticket->short_description = $request->short_description;
 		$ticket->description = $request->description;
+
+		if ($ticket->status_id == 3) {
+			$ticket->onhold_reason = $request->onhold_reason;
+		}
+		else {
+			$ticket->onhold_reason = null;
+		}
 		
 		// get dirty values
 		$dirt = $ticket->getDirty();
@@ -264,6 +289,8 @@ class TicketController extends Controller
 			$view->name = "On hold";
 			$view->filter = "status_id = 3 AND active = 1";
 			$view->save();
+
+			
 
 		}
 

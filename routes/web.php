@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\SiteController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -21,10 +22,10 @@ Route::get('/dashboard', function () {
 
 Route::get('/users', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('users.index');
 Route::post('/users', [UserController::class, 'create'])->middleware(['auth', 'verified']);
-Route::get('/users/{user}', [UserController::class, 'show'])->middleware(['auth', 'verified'])->name('users.show');
 Route::post('/users/{user}/update', [UserController::class, 'update'])->middleware(['auth', 'verified'])->name('users.update');
 Route::post('/users/{user}/teams/edit', [UserController::class, 'editTeams'])->middleware(['auth', 'verified'])->name('users.editteams');
 Route::post('/users/{user}/teams/update', [UserController::class, 'updateTeams'])->middleware(['auth', 'verified'])->name('users.updateteams');
+Route::get('/users/{user}', [UserController::class, 'show'])->middleware(['auth', 'verified'])->name('users.show');
 
 Route::get('/ci', [CIController::class, 'index'])->middleware(['auth', 'verified'])->name('ci.index');
 Route::post('/ci', [CIController::class, 'create'])->middleware(['auth', 'verified']);
@@ -67,6 +68,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/sites', [SiteController::class, 'index'])->name('sites.index');
+    Route::get('/sites/{site}', [SiteController::class, 'show'])->name('sites.show');
+    Route::post('/sites', [SiteController::class, 'create']);
+    Route::post('/sites/{site}/update', [SiteController::class, 'update']);
 });
 
 require __DIR__.'/auth.php';

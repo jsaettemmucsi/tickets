@@ -2,6 +2,11 @@
 	@isset($tag)
 		<span class="inline-block px-1 text-xl dark:bg-gray-700 bg-gray-100 dark:text-gray-400 text-gray-800 rounded text-xs uppercase mb-1">{{ $tag }}</span>
 	@endisset 
+	@isset($logo)
+		<div class="w-full block text-center">
+			<img class="h-8" src="{{ $logo }}" alt="{{ $header }}">
+		</div>
+	@endisset
 	<span class="font-bold py-1 text-xl">{{ $header ?? ''}}</span>
 	<span class="block">{{ $slot }}</span>
 	<span class="text-sm block text-gray-500">{{ $footer ?? '' }}</span>

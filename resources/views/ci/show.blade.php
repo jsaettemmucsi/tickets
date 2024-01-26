@@ -13,7 +13,7 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="overflow-hidden shadow-sm sm:rounded-lg bg-gray-50">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 					<form action="/ci/{{ $ci->id }}/update" method="POST">
 						@csrf
@@ -42,6 +42,26 @@
 							</label>
 							<x-text-input type="text" class="w-full" id="name" name="name" value="{{ $ci->name }}" />
 						</div>
+
+						<div class="mb-4">
+							<label for="name" class="block mb-1">
+								URL:
+							</label>
+							<x-text-input type="text" class="w-full" id="url" name="url" value="{{ $ci->url }}" />
+						</div>
+
+						<div class="mb-4">
+							<label for="support_team_id" class="block mb-1">
+								Support Team:
+							</label>
+							<x-select-input name="support_team_id" id="support_team_id" class="w-full">
+								<option value=""></option>
+								@foreach ($teams as $team)
+									<option value="{{ $team->id }}" @if ($team->id == $ci->support_team_id) selected @endif >{{ $team->name }}</option>
+								@endforeach
+							</x-select-input>
+						</div>
+
 
 						<x-primary-button>update</x-primary-button>
 

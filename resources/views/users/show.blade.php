@@ -37,6 +37,26 @@
 							</label>
 						</div>
 
+						<div class="mb-4">
+							<label for="site_id" class="block mb-1">
+								Site
+							</label>
+							<x-select-input name="site_id" id="site_id" class="w-full">
+                                <option value=""></option>
+								@foreach ($sites as $site)
+									<option value="{{ $site->id }}" @if ($site->id == $user->site_id) selected @endif 	>{{ $site?->name }}</option>
+								@endforeach
+							</x-select-input>
+						</div>
+
+						<div class="mb-4">
+							<label for="picture_url" class="block mb-1">
+								Picture URL:
+							</label>
+							<x-text-input type="text" class="w-full block mt-1" id="picture_url" name="picture_url" value="{{ $user->picture_url }}" />
+						</div>
+
+
 						<x-primary-button>update</x-primary-button>
 					</form>
 

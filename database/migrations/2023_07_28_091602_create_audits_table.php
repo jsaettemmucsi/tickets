@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('c_i_s', function (Blueprint $table) {
+        Schema::create('audits', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-			$table->string('name');
-			$table->unsignedBigInteger('bs_id');
-			$table->string('vendor')->nullable();
-            $table->string('url')->nullable();
-            $table->unsignedBigInteger('support_team_id')->nullable();
+            $table->string('name');
+            $table->unsignedBigInteger('auditor');
+            $table->integer('external')->default(0);
+            $table->unsignedBigInteger('internal_audited')->nullable();
+            $table->string('external_audited')->nullable();
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('c_i_s');
+        Schema::dropIfExists('audits');
     }
 };

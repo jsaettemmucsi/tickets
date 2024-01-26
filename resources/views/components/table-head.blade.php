@@ -1,4 +1,4 @@
-<table class="table w-full text-s relative counter text-sm">
+<table class="table border-separate w-full counter text-sm">
 
 	<thead class="bg-white text-black dark:bg-black dark:text-white shadow">	
 		<tr>

@@ -1,8 +1,6 @@
-<div title="{{ $worknote->id }}" class="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded w-full block hover:shadow dark:text-gray-300 mb-2 pt-2 pb-3 pr-2 pl-5 relative dark:hover:bg-gray-700
+<div title="{{ $worknote->id }}" class="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded w-full block hover:shadow dark:text-gray-300 mb-2 pt-3 pb-4 pr-3 pl-5 relative 
 @if ($worknote->internal) 
 		border-amber-400 bg-amber-50
-@elseif($worknote->type == 'Additional comments')
-@else
 @endif
 ">
 <span class="absolute block w-1.5 top-0 bottom-0 left-0 rounded-l bg-gradient-to-b
@@ -39,21 +37,23 @@
 			</span>
 		</div>
 	</div>
-	<div class="md my-4">
+	<div class="md my-5">
 		{!! $worknote->body() !!}
 	</div>
 	@if ($worknote->body == null)
 
-		<div class="grid grid-cols-2 gap-4">
+		<div class="grid grid-cols-4 gap-x-6 gap-y-1">
 			@if ($worknote->data)
-			@foreach ($worknote->data as $change)
-				<div class="text-right font-bold text-sm">{{ $change[0] }}</div>
-				<div>{{ $change[1] }}
-					@if ($change[2] != "")
-						<span class="mx-1 italic dark:text-slate-500">was</span> {{ $change[2] }}
-					@endif 
-				</div>
-			@endforeach
+				@foreach ($worknote->data as $change)
+					@if ($change[0] != "active")
+						<div class="text-right">{{ App\Models\Worknote::change($change[0]) }}</div>
+						<div class="col-span-3">{{ $change[1] }}
+							@if ($change[2] != "")
+								<span class="mx-1 italic dark:text-slate-500">was</span> {{ $change[2] }}
+							@endif 
+						</div>
+					@endif
+				@endforeach
 			@endif
 		</div>
 	@endif

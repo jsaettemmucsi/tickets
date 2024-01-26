@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Team;
+use App\Models\Site;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+
 	public function index()
 	{
 		$users = User::all();
@@ -25,14 +28,19 @@ class UserController extends Controller
 		return redirect('/users');
 	}
 
+
 	public function show(User $user) {
-		return view('users/show', compact('user'));
+		$sites = Site::all();
+		return view('users/show', compact('user', 'sites'));
 	}
+
 
 	public function update(Request $request, User $user) {
 		$user->name = $request->name;
 		$user->email = $request->email;
 		$user->default_team = $request->default_team;
+		$user->site_id = $request->site_id;
+		$user->picture_url = $request->picture_url;
 		$user->save();
 		return redirect('/users');
 	}
@@ -49,6 +57,6 @@ class UserController extends Controller
 	{
 		$user->teams()->detach();
 		$user->teams()->attach($request->teams_selected);
-		return view('users/show', compact('user'));		
+		return redirect($user->link());
 	}
 }
