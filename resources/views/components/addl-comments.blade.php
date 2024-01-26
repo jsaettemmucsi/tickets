@@ -4,5 +4,5 @@
 	
 	<span class="absolute block bg-gradient-to-b from-gray-400 to-gray-800 bottom-0 top-0 w-1.5 left-0 z-10 rounded-l"></span>
 
-	<x-text-area rows=3 type="text" class="w-full overflow-clip border-gray-400" id="addl-comments" name="addl-comments" placeholder="Additional comments (customer visible)"></x-text-area>
+	<x-text-area rows=3 type="text" class="w-full overflow-clip border-gray-400" id="addl-comments" name="addl-comments" :disabled="$disabled ?? ''" placeholder="Additional comments (customer visible)"></x-text-area>
 </div>

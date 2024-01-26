@@ -22,7 +22,7 @@
 					</div>
 				@endisset
 				<div class="text-right w-full">
-					{{ $view->tickets()->count() }} {{ Str::plural('incident', $view->tickets()->count()) }}
+					{{ $view->ticket_count() }} {{ Str::plural('incident', $view->ticket_count()) }}
 				</div>
 			</div>
 

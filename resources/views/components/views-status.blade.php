@@ -1,1 +1,1 @@
-<span class="">{{ $ticket->status }}</span>
+<span class="">{{ $ticket->status?->name }}</span>

@@ -23,7 +23,7 @@ return new class extends Migration
 			$table->unsignedBigInteger('businessservice_id')->nullable();
 			$table->unsignedBigInteger('configurationitem_id')->nullable();
 			$table->string('channel')->nullable();
-			$table->string('status')->nullable();
+			$table->unsignedBigInteger('status')->nullable();
 			$table->string('impact')->nullable();
 			$table->string('urgency')->nullable();
 			$table->string('priority')->nullable();
@@ -33,7 +33,7 @@ return new class extends Migration
 			$table->string('short_description')->nullable();
 			$table->string('description')->nullable();
 			$table->integer('active')->default(0);
-
+			$table->string('onhold_reason')->nullable();
         });
     }
 

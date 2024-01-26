@@ -13,16 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('hold_reasons', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-			$table->string('name');
-			$table->string('description')->nullable();
-			$table->string('email')->nullable();
-			$table->integer('active')->default(1);
-			$table->unsignedBigInteger('owner_id')->nullable();
-			$table->longText('logo')->nullable();
-			$table->text('logourl')->nullable();
+			$table->string('name')->unique();
         });
     }
 
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('hold_reasons');
     }
 };

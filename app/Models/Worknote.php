@@ -35,6 +35,7 @@ class Worknote extends Model
 	}
 
 
+	
 	public function body()
 	{
 		if ($this->body != "") {
@@ -42,8 +43,34 @@ class Worknote extends Model
 		}
 	}
 
+
+
 	public function ticket()
 	{
 		return $this->belongsTo(Ticket::class);
+	}
+
+
+
+	public static function getname($key, $value) {
+		if ($value == null) { return; }
+		switch($key) {
+			case 'businessservice_id':
+				return BS::find($value)?->name;
+			case 'configurationitem_id':
+				return CI::find($value)?->name;
+			case 'assignment_group':
+			case 'owner_group':
+				return Team::find($value)?->name;
+			case 'assigned_to':
+				return User::find($value)?->name;
+			case 'active':
+				if ($value == 1) { return 'true'; }
+				return 'false';
+			case 'status_id':
+				return Status::find($value)?->name;
+
+		}
+		return $value;
 	}
 }

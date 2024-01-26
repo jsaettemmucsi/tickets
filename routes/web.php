@@ -41,6 +41,7 @@ Route::get('/teams', [TeamController::class, 'index'])->middleware(['auth', 'ver
 Route::post('/teams', [TeamController::class, 'create'])->middleware(['auth', 'verified']);
 Route::post('/teams/{team}/update', [TeamController::class, 'update'])->middleware(['auth', 'verified'])->name('teams.update');
 Route::get('/teams/{team}', [TeamController::class, 'show'])->middleware(['auth', 'verified'])->name('teams.show');
+Route::get('/teams/{team}/delete', [TeamController::class, 'delete'])->middleware(['auth', 'verified']);
 
 Route::get('/tickets', [TicketController::class, 'index'])->middleware(['auth', 'verified'])->name('tickets.index');
 Route::get('/tickets/create', [TicketController::class, 'create'])->middleware(['auth', 'verified'])->name('tickets.create');
@@ -49,6 +50,9 @@ Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->middleware([
 Route::post('/tickets/{ticket}/update', [TicketController::class, 'update'])->middleware(['auth', 'verified'])->name('tickets.update');
 Route::post('/tickets/{ticket}/save', [TicketController::class, 'save'])->middleware(['auth', 'verified'])->name('tickets.save');
 Route::post('/tickets/{ticket}/savepost', [TicketController::class, 'savepost'])->middleware(['auth', 'verified'])->name('tickets.savepost');
+Route::post('/tickets/{ticket}/onhold', [TicketController::class, 'onhold'])->middleware(['auth', 'verified']);
+Route::post('/tickets/{ticket}/resume', [TicketController::class, 'resume'])->middleware(['auth', 'verified']);
+Route::post('/tickets/{ticket}/resolve', [TicketController::class, 'resolve'])->middleware(['auth', 'verified']);
 
 Route::get('/views/{view}', [TicketController::class, 'view'])->middleware(['auth', 'verified'])->name('view');
 

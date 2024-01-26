@@ -36,7 +36,24 @@
 						</label>
 						<x-text-input type="text" class="mt-1 block w-full" id="description" name="description" value="{{ $team->description }}" />
 					</div>
-						<x-primary-button>update</x-primary-button>
+
+					<div class="mb-4">
+						<label for="logo" class="block mb-1">
+							Logo SVG:
+						</label>
+						<x-text-input type="text" class="mt-1 block w-full" id="logo" name="logo" value="{{ $team->logo }}" />
+					</div>
+
+					<div class="mb-4">
+						<label for="logourl" class="block mb-1">
+							Logo URL:
+						</label>
+						<x-text-input type="text" class="mt-1 block w-full" id="logourl" name="logourl" value="{{ $team->logourl }}" />
+					</div>
+
+
+					<x-primary-button>update</x-primary-button>
+						<a class="text-red-500 underline ml-8" href="{{ $team->link() }}/delete">Delete</a>
 					</form>
 
 				</div>

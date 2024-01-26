@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
 			$table->unsignedBigInteger('default_team')->nullable();
 			$table->unsignedBigInteger('view')->nullable();
-			$table->integer('show_ticket_count')->default(1);
+			$table->integer('show_ticket_count')->default(1)->nullable();
         });
     }
 

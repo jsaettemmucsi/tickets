@@ -4,7 +4,7 @@
 	<div class="relative">
 		<span class="absolute block bg-gradient-to-b from-amber-200 to-amber-400 top-0 w-1.5 left-0 bottom-0 z-10 rounded-l"></span>
 		
-		<x-text-area rows=3 type="text" class="w-full overflow-clip border-amber-400 bg-amber-50" id="work-notes" name="work-notes" placeholder="Work notes (only visible by IT)"></x-text-area>
+		<x-text-area :disabled="$disabled ?? ''" rows=3 type="text" class="w-full overflow-clip border-amber-400 bg-amber-50" id="work-notes" name="work-notes" placeholder="Work notes (only visible by IT)"></x-text-area>
 	</div>
 	<div id="user-list" class="col-span-3 hidden text-center w-full">
 		@foreach($users as $user)

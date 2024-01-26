@@ -11,6 +11,8 @@ class View extends Model
 {
     use HasFactory;
 
+	public $ticks = [];
+
 	public function link()
 	{
 		return '/views/' . $this->id;
@@ -30,25 +32,36 @@ class View extends Model
 	}
 
 
-	public function tickets()
+	public function ticket_count()
 	{
-		// If we don't have a default sort order, set it to id.
-		if ($this->sorted_by == null) {
-			$this->sorted_by = 'id';
-		}
+		return $this->preptickets()->count();
+	}
 
-		if ($this->filter) {
-			if ($this->grouped_by) {
-				return Ticket::select($this->columns())->whereRaw($this->filter)->orderBy($this->sorted_by, 'desc')->groupBy('grouped_by')->get();
+	public function preptickets()
+	{
+			// If we don't have a default sort order, set it to id.
+			if ($this->sorted_by == null) {
+				$this->sorted_by = 'id';
+			}
+
+			if ($this->filter) {
+				if ($this->grouped_by) {
+					$this->ticks = Ticket::select($this->columns())->whereRaw($this->filter)->orderBy($this->sorted_by, 'desc')->groupBy('grouped_by');
+				}
+				else {
+					$this->ticks = Ticket::select($this->columns())->whereRaw($this->filter)->orderBy($this->sorted_by, 'desc');
+				}
 			}
 			else {
-				return Ticket::select($this->columns())->whereRaw($this->filter)->orderBy($this->sorted_by, 'desc')->get();
-
+				$this->ticks = Ticket::select($this->columns())->orderBy($this->sorted_by, 'desc');
 			}
-		}
-		else {
-			return Ticket::select($this->columns())->orderBy($this->sorted_by, 'desc')->get();
-		}
+
+		return $this->ticks;
+
+	}
+	public function tickets()
+	{
+		return $this->preptickets()->get();
 	}
 
 	

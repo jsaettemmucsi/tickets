@@ -1,15 +1,7 @@
 <x-app-layout>
 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-			<a href="/kb" class="text-blue-500 underline">Articles</a> &raquo;
-			<a href="{{ $article->link() }}" class="text-blue-500 underline">
-				{{ $article->headline() }}
-			</a>
-        </h2>
-    </x-slot>
-
-	<div class="py-12">
+	
+	<div class="">
 		<div class="max-w-3xl mx-auto p-4 dark:text-white">
 			<div id="errormsg" class="inline rounded text-red-600 p-3"></div>
 			<div class="">
@@ -81,8 +73,8 @@
 	});
 
 	editbutton.addEventListener("click", function() {
-		show(el("page-edit"));
-		hide(el("page-view"));
+		showel(el("page-edit"));
+		hideel(el("page-view"));
 		editbutton.classList.add("border-blue-700");
 		viewbutton.classList.remove("border-blue-700");
 	});
@@ -106,8 +98,8 @@
 		}
 
 
-		show(el("page-view"));
-		hide(el("page-edit"));
+		showel(el("page-view"));
+		hideel(el("page-edit"));
 		editbutton.classList.remove("border-blue-700");
 		viewbutton.classList.add("border-blue-700");
 	});
@@ -116,19 +108,19 @@
 		return document.querySelector("#" + t);
 	}
 
-	function toggle(el) {
+	function toggleel(el) {
 
 	}
 
-	function show(el) {
+	function showel(el) {
 		el.style.display = "block";
 	}
 
-	function hide(el) {
+	function hideel(el) {
 		el.style.display = "none";
 	}
 
-	hide(el("page-edit"));
+	hideel(el("page-edit"));
 
 
 </script>

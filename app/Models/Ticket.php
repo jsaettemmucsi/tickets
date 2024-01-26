@@ -116,12 +116,25 @@ class Ticket extends Model
 				return view('components.views-updatedat', ['ticket' => $this]);
 			case 'created_at':
 				return view('components.views-createdat', ['ticket' => $this]);
-			case 'status':
+			case 'status_id':
 				return view('components.views-status', ['ticket' => $this]);
 			case 'priority':
 				return view('components.views-prio', ['ticket' => $this]);
+			case 'short_description':
+				return $this->short_description();
 		}
 		return $this->$column;
+	}
+
+	public function holdReason()
+	{
+	   return $this->hasOne(HoldReason::class);
+	}
+
+
+	public function status()
+	{
+		return $this->belongsTo(Status::class);
 	}
 
 }

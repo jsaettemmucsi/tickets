@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-
-	
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
 			<div class="block mb-4">
@@ -24,6 +22,9 @@
 			<div class="block w-full">
 				@foreach ($teams as $team)
 					<x-card href="{{ $team->link() }}" header="{{ $team->name }}" footer="{{ $team->email }}">
+						@if ($team->logourl)
+						<img class="h-8" src="{{ $team->logourl }}" alt="Logo for {{ $team->name }}">
+						@endif
 					</x-card>
 				@endforeach
 			</div>

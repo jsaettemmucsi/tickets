@@ -19,9 +19,9 @@ return new class extends Migration
 			$table->unsignedBigInteger('ticket_id');
 			$table->unsignedBigInteger('user_id');
 			$table->integer('internal')->default(1);
-			$table->string('body')->nullable();
+			$table->longText('body')->nullable();
 			$table->string('type')->nullable();
-			$table->json('data')->nullable();
+			$table->longText('data')->nullable();
         });
     }
 

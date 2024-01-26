@@ -7,19 +7,22 @@ use App\Models\CI;
 use App\Models\View;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Status;
 use App\Models\Ticket;
 use App\Models\Worknote;
+use App\Models\HoldReason;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+
 	public function index()
 	{
 
 		// Check if we have a default view
 		$this->createViews();
 
-		$views = View::all();
+		$views = View::select('id', 'name');
 
 		// if user has a selected view, view that.
 		if (auth()->user()->view > 0) {
@@ -37,9 +40,9 @@ class TicketController extends Controller
 		$ticket->opened = now();
 		$ticket->requester = auth()->user()->id;
 		$ticket->channel = "Direct input";
-		$ticket->status = "New";
-		$ticket->impact = "4 - Minor/Localized";
-		$ticket->urgency = "4 - Low";
+		$ticket->status = 1;
+		$ticket->impact = 4;
+		$ticket->urgency = 4;
 		$ticket->priority = "Low (P4)";
 		$ticket->active = false;
 		$ticket->save();
@@ -59,7 +62,9 @@ class TicketController extends Controller
 		$teams = Team::with('users')->get();
 		$users = User::all();
 		$views = View::all();
-		return view('tickets/show', compact('ticket', 'bss', 'cis', 'teams', 'users', 'views'));
+		$statuses = Status::all();
+		$holdReasons = HoldReason::all();
+		return view('tickets/show', compact('ticket', 'bss', 'cis', 'teams', 'users', 'views', 'statuses', 'holdReasons'));
 	}
 
 
@@ -90,7 +95,7 @@ class TicketController extends Controller
 	{
 		$ticket->channel = $request->channel;
 		$ticket->active = $request->active;
-		$ticket->status = $request->status;
+		$ticket->status_id = $request->status_id;
 		$ticket->requester = $request->requester;
 		$ticket->impact = $request->impact;
 		$ticket->category = $request->category;
@@ -112,10 +117,9 @@ class TicketController extends Controller
 		if ($dirt) {
 			$newdirt = [];
 			foreach($dirt as $key => $dir) {
-				$newdirt[] = [$key, $dir, $ticket->getOriginal($key)];
+				$newdirt[] = [$key, Worknote::getname($key, $dir), Worknote::getname($key, $ticket->getOriginal($key))];
 			}
 
-			// dd($ticket);
 			$this->log($ticket->id, $newdirt);
 		}
 
@@ -191,7 +195,7 @@ class TicketController extends Controller
 	 public function view(View $view)
 	 {
 		$this->createViews();
-		$views = View::all();
+		$views = View::select('id', 'name', 'columns')->get();
 
 		// make the viewed view the set view
 		$user = auth()->user();
@@ -208,9 +212,9 @@ class TicketController extends Controller
 			// If not, create one.
 			$view = new View();
 			$view->public = true;
-			$view->created_by = auth()->user()->id;
-			$view->updated_by = auth()->user()->id;
-			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->created_by = auth()->user->id;
+			$view->updated_by = auth()->user->id;
+			$view->columns = "identifier(), status_id, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
 			$view->sorted_by = "updated_at";
 			$view->grouped_by = null;
 			$view->name = "All Incidents";
@@ -221,47 +225,97 @@ class TicketController extends Controller
 			$view->public = true;
 			$view->created_by = auth()->user()->id;
 			$view->updated_by = auth()->user()->id;
-			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->columns = "identifier(), status_id, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
 			$view->sorted_by = "updated_at";
 			$view->grouped_by = null;
 			$view->name = "Open incidents";
-			$view->filter = "status in ('New', 'In progress', 'On hold') AND active = 1";
+			$view->filter = "status_id in (1, 2, 3) AND active = 1";
 			$view->save();
 
 			$view = new View();
 			$view->public = true;
 			$view->created_by = auth()->user()->id;
 			$view->updated_by = auth()->user()->id;
-			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->columns = "identifier(), status_id, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
 			$view->sorted_by = "updated_at";
 			$view->grouped_by = null;
 			$view->name = "In Progress";
-			$view->filter = "status = 'In progress' AND active = 1";
+			$view->filter = "status_id = 2 AND active = 1";
 			$view->save();
 
 			$view = new View();
 			$view->public = true;
 			$view->created_by = auth()->user()->id;
 			$view->updated_by = auth()->user()->id;
-			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->columns = "identifier(), status_id, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
 			$view->sorted_by = "updated_at";
 			$view->grouped_by = null;
 			$view->name = "New";
-			$view->filter = "status = 'New' AND active = 1";
+			$view->filter = "status_id = 1 AND active = 1";
 			$view->save();
 
 			$view = new View();
 			$view->public = true;
 			$view->created_by = auth()->user()->id;
 			$view->updated_by = auth()->user()->id;
-			$view->columns = "identifier(), status, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
+			$view->columns = "identifier(), status_id, priority, assignment_group, assigned_to, short_description, updated_at, created_at";
 			$view->sorted_by = "updated_at";
 			$view->grouped_by = null;
 			$view->name = "On hold";
-			$view->filter = "status = 'On hold' AND active = 1";
+			$view->filter = "status_id = 3 AND active = 1";
 			$view->save();
 
 		}
 
 	 }
+
+
+	 public function onhold(Ticket $ticket, Request $request)
+	 {
+		 // check if an addl comment has been supplied, otherwise route back with error.
+		if (!$request['addl-comments']) {
+			return redirect()->back()->withErrors(['msg' => 'Additional comments required to put incident on hold.']);
+		}
+
+		$oldstatus = $ticket->status;
+		$this->upd($ticket, $request);
+		$ticket->status_id = 3;
+		$ticket->save();
+		$this->log($ticket->id, [['status_id', 'On hold', $oldstatus?->name]]);
+		return redirect('/views/' . auth()->user()->view);
+	 }
+
+	 public function resolve(Ticket $ticket, Request $request)
+	 {
+		 // check if an addl comment has been supplied, otherwise route back with error.
+		if (!$request['addl-comments']) {
+			return redirect()->back()->withErrors(['msg' => 'Additional comments required to resolve an incident.']);
+		}
+
+		$oldstatus = $ticket->status;
+		$this->upd($ticket, $request);
+		$ticket->status_id = 4;
+		$ticket->save();
+		$this->log($ticket->id, [['status_id', 'Resolved', $oldstatus?->name]]);
+		return redirect('/views/' . auth()->user()->view);
+
+	 }
+
+	 public function resume(Ticket $ticket, Request $request)
+	 {
+		 // check if an addl comment has been supplied, otherwise route back with error.
+		$oldstatus = $ticket->status;
+		$this->upd($ticket, $request);
+		$ticket->status_id = 2;
+		$ticket->save();
+		$this->log($ticket->id, [['status_id', 'In progress', $oldstatus?->name]]);
+		return redirect()->back();
+
+	 }
+
+
+
+
+
+
 }

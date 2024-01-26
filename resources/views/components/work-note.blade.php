@@ -1,4 +1,4 @@
-<div class="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded w-full block hover:shadow dark:text-gray-300 mb-2 pt-2 pb-3 pr-2 pl-5 relative dark:hover:bg-gray-700
+<div title="{{ $worknote->id }}" class="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded w-full block hover:shadow dark:text-gray-300 mb-2 pt-2 pb-3 pr-2 pl-5 relative dark:hover:bg-gray-700
 @if ($worknote->internal) 
 		border-amber-400 bg-amber-50
 @elseif($worknote->type == 'Additional comments')
@@ -42,8 +42,10 @@
 	<div class="md my-4">
 		{!! $worknote->body() !!}
 	</div>
-	@if ($worknote->body == "")
+	@if ($worknote->body == null)
+
 		<div class="grid grid-cols-2 gap-4">
+			@if ($worknote->data)
 			@foreach ($worknote->data as $change)
 				<div class="text-right font-bold text-sm">{{ $change[0] }}</div>
 				<div>{{ $change[1] }}
@@ -52,6 +54,7 @@
 					@endif 
 				</div>
 			@endforeach
+			@endif
 		</div>
 	@endif
 </div>

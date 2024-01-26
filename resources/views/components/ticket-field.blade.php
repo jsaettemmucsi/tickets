@@ -9,5 +9,6 @@
 	id="{{ $field }}" 
 	name="{{ $field }}" 
 	value="{{ $value }}" 
-	:disabled="isset($disabled)"
+	:disabled="$disabled ?? ''"
+	:readonly="$readonly ?? ''"
 ></x-text-input>

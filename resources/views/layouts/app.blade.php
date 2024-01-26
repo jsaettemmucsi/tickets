@@ -31,20 +31,14 @@
             @endif
 
             <!-- Page Content -->
-            <main class="mt-16">
+            <main class="mt-12">
                 {{ $slot }}
             </main>
-			<footer class="dark:bg-gray-800 dark:text-gray-400 text-center mt-24 py-2">
-				&copy; 
-				<x-link href="https://sagikos.com">
-					<img src="https://sagikos.com/sagikos-logo.svg" class="inline h-6">
-				</x-link> 2021-2023<br>
-				<img src="https://saettem.com/saettem-logo-2023-2-1.svg" class="inline h-8">
-				<x-link href="https://saettem.com">
-					Saettem
-				</x-link> 2012-2021<br>
-				ITAC-Pait 2005-2012<br> 
-				IESO 1997-2005
+			<footer class="dark:bg-gray-800 dark:text-gray-400 text-center mt-4 py-2">
+				&copy;
+				<x-link href="https://sagikos.com" class="text-center">
+					<img src="https://sagikos.com/sagikos-logo.svg" alt="" class="h-12 inline">
+				</x-link> 2023
 	
 			</footer>
         </div>
@@ -53,12 +47,15 @@
     </body>
 
 <script>
+
 	function toggle(el) {
 		document.querySelector(el).classList.toggle('hidden');
 	}
+
 	function hide(el) {
 		document.querySelector(el).classList.add('hidden');
 	}
+	
 	function show(el) {
 		document.querySelector(el).classList.remove('hidden');
 	}
